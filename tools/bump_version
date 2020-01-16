@@ -1,0 +1,23 @@
+#!/bin/bash
+
+bumped=0;
+
+while [[ "$#" -gt 0 ]]; do case $1 in
+  -p|--patch) pubver bump patch -b > /dev/null; bumped=1;;
+  -s|--minor) pubver bump minor -b > /dev/null; bumped=1;;
+  -b|--major) pubver bump major -b > /dev/null; bumped=1;;
+  *) echo "Unknown parameter passed: $1"; exit 1;;
+esac; shift; done
+
+if [[ "$bumped" -eq 1 ]]; then
+  pubver bump build > /dev/null;
+  echo;
+  git add pubspec.yaml && git commit -m "Pushed to version `pubver get`.";
+  git tag `pubver get`;
+  exit 1;
+fi
+
+echo;
+echo "Publish a patch -p|--patch";
+echo "Publish a minor update -s|--minor (small)";
+echo "Publish a major update -b|--major (big)";
