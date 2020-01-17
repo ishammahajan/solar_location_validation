@@ -1,5 +1,8 @@
-import 'package:camera/camera.dart';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:camera/camera.dart';
+import 'package:sensors/sensors.dart';
 
 enum CameraState { mounting, mounted, failure }
 
@@ -30,6 +33,12 @@ class _CameraWidgetState extends State<CameraWidget> {
         return Center(child: CircularProgressIndicator());
         break;
       case CameraState.mounted:
+        accelerometerEvents.listen((data) {
+          if ((data.x.abs() > 9.0 || data.y.abs() > 9.0) &&
+              (sqrt(pow(data.x, 2) + pow(data.y, 2)) > 9.8)) {
+            print('captured photo');
+          }
+        });
         return AspectRatio(
           aspectRatio: widget.controller.value.aspectRatio,
           child: CameraPreview(widget.controller),
