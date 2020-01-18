@@ -10,3 +10,13 @@ abstract class ExperimentState {
 class InitialExperimentState extends ExperimentState {
   final List<Experiment> experiments = [];
 }
+
+class HydratedExperimentState extends ExperimentState {
+  HydratedExperimentState({@required this.experiments});
+  final List<Experiment> experiments;
+}
+
+class UpdatedExperimentState extends ExperimentState {
+  UpdatedExperimentState({@required this.experiments});
+  final List<Experiment> experiments;
+}
