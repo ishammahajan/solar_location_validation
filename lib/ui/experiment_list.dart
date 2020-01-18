@@ -45,11 +45,6 @@ class _ExperimentListState extends State<ExperimentList> {
       body: BlocBuilder<ExperimentBloc, ExperimentState>(
         builder: (context, state) {
           if (state is InitialExperimentState) {
-            return Center(child: CircularProgressIndicator());
-          }
-
-          // TODO: fix this showing
-          if (state.experiments.length == 0) {
             return Center(
                 child: Padding(
               padding: const EdgeInsets.all(16.0),
