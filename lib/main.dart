@@ -3,11 +3,15 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:camera/camera.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'bloc/bloc.dart';
 import 'ui/camera_widget.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Ensure build only runs in portrait mode
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
     runApp(MyApp());
@@ -77,9 +81,13 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: CameraWidget(
-        state: state,
-        controller: controller,
+      body: BlocProvider(
+        create: (_) => ExperimentBloc(),
+        child: BlocBuilder<ExperimentBloc, ExperimentState>(
+          builder: (context, state) {
+            return Text(state.toString());
+          },
+        ),
       ),
     );
   }
